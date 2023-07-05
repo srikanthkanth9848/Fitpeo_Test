@@ -20,6 +20,7 @@ import com.example.fitpeo_test.databinding.ActivityMainBinding
 import com.example.fitpeo_test.network.LoadingState
 import com.example.fitpeo_test.viewmodel.MyViewModelFactory
 import com.example.fitpeo_test.viewmodel.ResponseViewModel
+import com.google.android.material.internal.ContextUtils.getActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.ClickListener {
     lateinit var recyclerView: RecyclerView
 
     private lateinit var recyclerViewAdapter: RecyclerViewAdapter
+
 
     private lateinit var responseViewModel: ResponseViewModel
     private lateinit var activityMainBinding: ActivityMainBinding
@@ -55,6 +57,15 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.ClickListener {
         recyclerView.layoutManager = LinearLayoutManager(this)
         responseViewModel.loadingData.observe(this, Observer {
             Log.e("MainActivity", "loadingData status " + it.status)
+            if (it.status.equals("RUNNING")) {
+                activityMainBinding.progressBar.visibility = View.VISIBLE
+                activityMainBinding.recyclerview.visibility = View.GONE
+            } else if (it.status.equals("SUCCESS")) {
+                activityMainBinding.progressBar.visibility = View.GONE
+                activityMainBinding.recyclerview.visibility = View.VISIBLE
+            }else if (it.status.equals("FAILED")){
+                activityMainBinding.recyclerview.visibility = View.GONE
+            }
         })
 
         responseDataItemList = ArrayList()
@@ -68,32 +79,34 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.ClickListener {
     }
 
     private fun checkNetwork() {
-        val networkConnection = NetworkConnection(applicationContext)
+        val networkConnection = NetworkConnection(this@MainActivity)
         networkConnection.observe(this) { isConnected ->
             if (isConnected) {
-                getData()
                 activityMainBinding.networkError.visibility = View.GONE
                 activityMainBinding.recyclerview.visibility = View.VISIBLE
+                Log.e("MainActivity", "internet connected... ")
+                getData()
             } else {
                 activityMainBinding.networkError.visibility = View.VISIBLE
                 activityMainBinding.recyclerview.visibility = View.GONE
+                activityMainBinding.progressBar.visibility = View.GONE
+                Log.e("MainActivity", "internet disconnected...  ")
             }
         }
     }
 
     private fun getData() {
         responseViewModel.getData.observe(this, Observer {
-            recyclerViewAdapter.setData(it)
-
-            if (it.isNotEmpty()) {
-                activityMainBinding.recyclerview.visibility = View.VISIBLE
-                activityMainBinding.progressBar.visibility = View.GONE
-                Log.e("MainActivity", "getData() size:  " + it.size)
-            } else {
+            if (it.isNullOrEmpty()) {
                 activityMainBinding.recyclerview.visibility = View.GONE
                 activityMainBinding.progressBar.visibility = View.VISIBLE
+                Log.e("MainActivity", "getData() size:  " + it.size)
+            } else {
+                activityMainBinding.recyclerview.visibility = View.VISIBLE
+                activityMainBinding.progressBar.visibility = View.GONE
                 Log.e("MainActivity", "getData() size: " + it.size)
             }
+            recyclerViewAdapter.setData(it)
         })
         recyclerView.adapter = recyclerViewAdapter
     }

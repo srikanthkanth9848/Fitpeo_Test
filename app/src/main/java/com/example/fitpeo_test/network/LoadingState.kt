@@ -1,6 +1,4 @@
-package com.example.fitpeo_test
-
-import javax.net.ssl.SSLEngineResult.Status
+package com.example.fitpeo_test.network
 
 data class LoadingState private constructor(
     val status: Status, val msg: String? = null

@@ -1,4 +1,4 @@
-package com.example.fitpeo_test
+package com.example.fitpeo_test.view
 
 import android.app.Application
 import com.example.fitpeo_test.di.component.AppComponent

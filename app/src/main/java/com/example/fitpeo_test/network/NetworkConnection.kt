@@ -1,4 +1,4 @@
-package com.example.fitpeo_test
+package com.example.fitpeo_test.network
 
 import android.content.BroadcastReceiver
 import android.content.Context

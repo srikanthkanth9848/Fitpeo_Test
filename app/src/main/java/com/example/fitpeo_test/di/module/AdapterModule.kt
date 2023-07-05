@@ -1,15 +1,18 @@
 package com.sgemin.daggertwoex.di.module
 
-import com.sgemin.daggertwoex.adapter.RecyclerViewAdapter
+import com.example.fitpeo_test.adapter.RecyclerViewAdapter
+import com.example.fitpeo_test.view.MainActivity
 import com.sgemin.daggertwoex.di.scopes.ActivityScope
-import com.sgemin.daggertwoex.ui.MainActivity
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
 /**
- * Created by Stephen Gemin on 9/1/2019
+ * Created by srikanth.saini on 02/07/2023
  */
-@Module(includes = [MainActivityContextModule::class])
+@Module()
+@InstallIn(SingletonComponent::class)
 class AdapterModule {
 
     @Provides

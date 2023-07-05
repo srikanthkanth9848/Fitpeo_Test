@@ -1,4 +1,4 @@
-package com.example.fitpeo_test
+package com.example.fitpeo_test.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +10,8 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.fitpeo_test.R
+import com.example.fitpeo_test.ResponseDataItem
 import java.util.ArrayList
 import javax.inject.Inject
 
@@ -29,9 +31,11 @@ class RecyclerViewAdapter @Inject constructor(private val clickListener: ClickLi
         setImageUrl(holder.imageView, data[position].thumbnailUrl)
 
         holder.relativeLayout.setOnClickListener {
-            clickListener.launchIntent(data[position].id, data[position].title, data[position].url,
+            clickListener.launchIntent(
+                data[position].id, data[position].title, data[position].url,
                 data[position].thumbnailUrl,
-                data[position].albumId)
+                data[position].albumId
+            )
         }
 
     }
@@ -43,10 +47,7 @@ class RecyclerViewAdapter @Inject constructor(private val clickListener: ClickLi
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val txtName: TextView = itemView.findViewById(R.id.titleName)
         val imageView: ImageView = itemView.findViewById(R.id.imageID)
-
-        //val txtBirthYear: TextView = itemView.findViewById(R.id.txtBirthYear)
         val relativeLayout: RelativeLayout = itemView.findViewById(R.id.constraintLayout)
-
     }
 
     interface ClickListener {

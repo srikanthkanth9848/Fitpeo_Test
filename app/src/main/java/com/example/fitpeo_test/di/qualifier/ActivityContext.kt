@@ -1,7 +1,7 @@
 package com.sgemin.daggertwoex.di.qualifier
 
 /**
- * Created by Stephen Gemin on 9/1/2019
+ * Created by srikanth.saini on 02/07/2023
  */
 
 import javax.inject.Qualifier

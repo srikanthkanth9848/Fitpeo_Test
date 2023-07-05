@@ -1,4 +1,4 @@
-package com.sgemin.daggertwoex.webutils.retrofit
+package com.example.fitpeo_test.network
 
 /**
  * Created by srikanth.saini on 02/07/2023

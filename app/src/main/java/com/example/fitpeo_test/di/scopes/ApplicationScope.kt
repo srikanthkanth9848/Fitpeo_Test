@@ -3,7 +3,7 @@ package com.sgemin.daggertwoex.di.scopes
 import javax.inject.Scope
 
 /**
- * Created by Stephen Gemin on 9/1/2019
+ * Created by srikanth.saini on 02/07/2023
  */
 @Scope
 @Retention

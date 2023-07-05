@@ -17,6 +17,7 @@ import com.example.fitpeo_test.R
 import com.example.fitpeo_test.adapter.RecyclerViewAdapter
 import com.example.fitpeo_test.ResponseDataItem
 import com.example.fitpeo_test.databinding.ActivityMainBinding
+import com.example.fitpeo_test.network.LoadingState
 import com.example.fitpeo_test.viewmodel.MyViewModelFactory
 import com.example.fitpeo_test.viewmodel.ResponseViewModel
 import dagger.hilt.android.AndroidEntryPoint

@@ -1,5 +1,6 @@
 package com.example.fitpeo_test.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -60,6 +61,7 @@ class RecyclerViewAdapter @Inject constructor(private val clickListener: ClickLi
         )
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(data: List<ResponseDataItem>) {
         this.data.addAll(data)
         notifyDataSetChanged()

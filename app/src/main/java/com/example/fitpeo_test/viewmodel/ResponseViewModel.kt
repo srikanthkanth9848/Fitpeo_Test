@@ -33,13 +33,13 @@ class ResponseViewModel @Inject constructor(var apiInterface: ApiInterface) : Vi
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 loadingState.postValue(LoadingState.LOADING)
-                val responseDataa = apiInterface.dataResponse()
-                Log.e("myResp", "dataResp " + responseDataa)
-                if (responseDataa.isSuccessful!!) {
-                    responseData.postValue(responseDataa.body())
+                val responseList = apiInterface.dataResponse()
+                Log.e("responseViewModel", "fetchData $responseList")
+                if (responseList.isSuccessful) {
+                    responseData.postValue(responseList.body())
                     loadingState.postValue(LoadingState.LOADED)
                 } else {
-                    loadingState.postValue(LoadingState.error(responseDataa.message()))
+                    loadingState.postValue(LoadingState.error(responseList.message()))
                 }
             } catch (e: Exception) {
                 loadingState.postValue(LoadingState.error(e.message))

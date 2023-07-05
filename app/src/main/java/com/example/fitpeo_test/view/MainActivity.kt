@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.ClickListener {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         responseViewModel.loadingData.observe(this, Observer {
-            Log.e("reponseData", "myData 1 " + it.status)
+            Log.e("MainActivity", "loadingData status " + it.status)
         })
 
         responseDataItemList = ArrayList()
@@ -87,11 +87,11 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.ClickListener {
             if (it.isNotEmpty()) {
                 activityMainBinding.recyclerview.visibility = View.VISIBLE
                 activityMainBinding.progressBar.visibility = View.GONE
-                Log.e("responseDataItemList", "responseDataItemList1 " + it.size)
+                Log.e("MainActivity", "getData() size:  " + it.size)
             } else {
                 activityMainBinding.recyclerview.visibility = View.GONE
                 activityMainBinding.progressBar.visibility = View.VISIBLE
-                Log.e("responseDataItemList", "responseDataItemList2 " + it.size)
+                Log.e("MainActivity", "getData() size: " + it.size)
             }
         })
         recyclerView.adapter = recyclerViewAdapter
@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.ClickListener {
         albumId: String?
     ) {
         val responseDataItem = ResponseDataItem(id, title, url, thumbnailUrl, albumId)
-        Log.e("responseDataItem", "responseDataItem2 $responseDataItem")
+        Log.e("MainActivity", "launchIntent $responseDataItem")
         val intent = Intent(this@MainActivity, DetailActivity::class.java)
         intent.putExtra("responseDataItemList", responseDataItem as Parcelable)
         startActivity(intent)

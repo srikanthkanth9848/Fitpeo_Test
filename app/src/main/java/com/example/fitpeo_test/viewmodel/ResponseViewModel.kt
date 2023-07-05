@@ -1,6 +1,8 @@
 package com.example.fitpeo_test.viewmodel
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.fitpeo_test.network.ApiInterface
 import com.example.fitpeo_test.network.LoadingState
 import com.example.fitpeo_test.ResponseDataItem
+import com.example.fitpeo_test.view.MainActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,6 +24,8 @@ import javax.inject.Inject
 class ResponseViewModel @Inject constructor(var apiInterface: ApiInterface) : ViewModel() {
     private val loadingState = MutableLiveData<LoadingState>()
     val loadingData: LiveData<LoadingState> get() = loadingState
+
+    private lateinit var context: Context
 
     private val responseData = MutableLiveData<List<ResponseDataItem>>()
     val getData: LiveData<List<ResponseDataItem>> get() = responseData
@@ -43,6 +48,7 @@ class ResponseViewModel @Inject constructor(var apiInterface: ApiInterface) : Vi
                 }
             } catch (e: Exception) {
                 loadingState.postValue(LoadingState.error(e.message))
+                Log.e("responseViewModel", "No address associated with hostname")
             }
         }
     }

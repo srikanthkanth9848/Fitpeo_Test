@@ -11,13 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.fitpeo_test.R
-import com.example.fitpeo_test.ResponseDataItem
-import java.util.ArrayList
-import javax.inject.Inject
-
-class RecyclerViewAdapter @Inject constructor(private val clickListener: ClickListener) :
+import com.example.fitpeo_test.model.ResponseDataItem
+class RecyclerViewAdapter(private val clickListener: ClickListener) :
     RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
-    private val data = ArrayList<ResponseDataItem>()
+    private val data = mutableListOf<ResponseDataItem>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -61,7 +58,7 @@ class RecyclerViewAdapter @Inject constructor(private val clickListener: ClickLi
     }
 
     fun setData(data: List<ResponseDataItem>) {
-        this.data.addAll(data)
+        this.data.addAll(data.toMutableList())
         notifyDataSetChanged()
     }
 

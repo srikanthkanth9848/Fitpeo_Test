@@ -12,7 +12,7 @@ import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.fitpeo_test.R
-import com.example.fitpeo_test.ResponseDataItem
+import com.example.fitpeo_test.model.ResponseDataItem
 import com.example.fitpeo_test.databinding.ActivityDetailBinding
 
 

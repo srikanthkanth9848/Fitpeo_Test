@@ -1,6 +1,6 @@
 package com.example.fitpeo_test.network
 
-import com.example.fitpeo_test.ResponseDataItem
+import com.example.fitpeo_test.model.ResponseDataItem
 import retrofit2.Response
 import retrofit2.http.GET
 

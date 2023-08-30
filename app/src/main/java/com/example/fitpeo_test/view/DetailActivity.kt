@@ -14,6 +14,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.fitpeo_test.R
 import com.example.fitpeo_test.model.ResponseDataItem
 import com.example.fitpeo_test.databinding.ActivityDetailBinding
+import com.example.fitpeo_test.network.ApiInterface
+import javax.inject.Inject
 
 
 class DetailActivity : AppCompatActivity() {

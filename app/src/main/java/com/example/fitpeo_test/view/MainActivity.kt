@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.ClickListener {
 
     private lateinit var recyclerViewAdapter: RecyclerViewAdapter
 
+
     private lateinit var responseViewModel: ResponseViewModel
     private lateinit var activityMainBinding: ActivityMainBinding
 
@@ -61,6 +62,18 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.ClickListener {
         responseViewModel.loadingData.observe(this) {
             Log.e("reponseData", "myData 1 " + it.status)
         }
+        responseViewModel.loadingData.observe(this, Observer {
+            Log.e("MainActivity", "loadingData status " + it.status)
+            if (it.status.equals("RUNNING")) {
+                activityMainBinding.progressBar.visibility = View.VISIBLE
+                activityMainBinding.recyclerview.visibility = View.GONE
+            } else if (it.status.equals("SUCCESS")) {
+                activityMainBinding.progressBar.visibility = View.GONE
+                activityMainBinding.recyclerview.visibility = View.VISIBLE
+            }else if (it.status.equals("FAILED")){
+                activityMainBinding.recyclerview.visibility = View.GONE
+            }
+        })
 
         responseDataItemList = ArrayList()
         recyclerViewAdapter = RecyclerViewAdapter(this)
@@ -121,16 +134,20 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.ClickListener {
     }
 
     private fun checkNetwork() {
-        val networkConnection = NetworkConnection(applicationContext)
+        val networkConnection = NetworkConnection(this@MainActivity)
         networkConnection.observe(this) { isConnected ->
             if (isConnected) {
                 //getData()
                 myFlows()//flow concept
                 activityMainBinding.networkError.visibility = View.GONE
                 activityMainBinding.recyclerview.visibility = View.VISIBLE
+                Log.e("MainActivity", "internet connected... ")
+                getData()
             } else {
                 activityMainBinding.networkError.visibility = View.VISIBLE
                 activityMainBinding.recyclerview.visibility = View.GONE
+                activityMainBinding.progressBar.visibility = View.GONE
+                Log.e("MainActivity", "internet disconnected...  ")
             }
         }
     }
@@ -138,17 +155,16 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.ClickListener {
     //this is belongs to live data concept...
     private fun getData() {
         responseViewModel.getData.observe(this, Observer {
-            recyclerViewAdapter.setData(it)
-
-            if (it.isNotEmpty()) {
-                activityMainBinding.recyclerview.visibility = View.VISIBLE
-                activityMainBinding.progressBar.visibility = View.GONE
-                Log.e("responseDataItemList", "responseDataItemList1 " + it.size)
-            } else {
+            if (it.isNullOrEmpty()) {
                 activityMainBinding.recyclerview.visibility = View.GONE
                 activityMainBinding.progressBar.visibility = View.VISIBLE
-                Log.e("responseDataItemList", "responseDataItemList2 " + it.size)
+                Log.e("MainActivity", "getData() size:  " + it.size)
+            } else {
+                activityMainBinding.recyclerview.visibility = View.VISIBLE
+                activityMainBinding.progressBar.visibility = View.GONE
+                Log.e("MainActivity", "getData() size: " + it.size)
             }
+            recyclerViewAdapter.setData(it)
         })
         recyclerView.adapter = recyclerViewAdapter
     }
@@ -161,7 +177,7 @@ class MainActivity : AppCompatActivity(), RecyclerViewAdapter.ClickListener {
         albumId: String?
     ) {
         val responseDataItem = ResponseDataItem(id, title, url, thumbnailUrl, albumId)
-        Log.e("responseDataItem", "responseDataItem2 $responseDataItem")
+        Log.e("MainActivity", "launchIntent $responseDataItem")
         val intent = Intent(this@MainActivity, DetailActivity::class.java)
         intent.putExtra("responseDataItemList", responseDataItem as Parcelable)
         startActivity(intent)

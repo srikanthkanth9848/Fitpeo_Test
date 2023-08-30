@@ -2,7 +2,6 @@ package com.example.fitpeo_test.viewmodel
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,8 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.fitpeo_test.network.ApiInterface
 import com.example.fitpeo_test.network.LoadingState
 import com.example.fitpeo_test.model.ResponseDataItem
-import com.example.fitpeo_test.ResponseDataItem
-import com.example.fitpeo_test.view.MainActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -58,12 +55,7 @@ class ResponseViewModel @Inject constructor(var apiInterface: ApiInterface) :
                     it.message.toString()
                 )
             }.collect {
-//                var responseDataItem = ResponseDataItem()
-                val myList: List<ResponseDataItem>? = it.data?.body()
-                for (i in myList!!.indices) {
-                    //responseDataItem = myList[i]
-                    commentState.value = CommentApiState.success(it.data.body())
-                }
+                commentState.value = CommentApiState.success(it.data?.body())
             }
         }
     }
@@ -76,13 +68,14 @@ class ResponseViewModel @Inject constructor(var apiInterface: ApiInterface) :
                 Log.e("responseViewModel", "fetchData $responseList")
                 if (responseList.isSuccessful) {
                     responseData.postValue(responseList.body())
-                val responseDataa = apiInterface.dataResponse()
-                Log.e("myResp", "dataResp $responseDataa")
-                if (responseDataa.isSuccessful) {
-                    responseData.postValue(responseDataa.body())
-                    loadingState.postValue(LoadingState.LOADED)
-                } else {
-                    loadingState.postValue(LoadingState.error(responseList.message()))
+                    val responseDataa = apiInterface.dataResponse()
+                    Log.e("myResp", "dataResp $responseDataa")
+                    if (responseDataa.isSuccessful) {
+                        responseData.postValue(responseDataa.body())
+                        loadingState.postValue(LoadingState.LOADED)
+                    } else {
+                        loadingState.postValue(LoadingState.error(responseList.message()))
+                    }
                 }
             } catch (e: Exception) {
                 loadingState.postValue(LoadingState.error(e.message))
